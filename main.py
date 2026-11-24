@@ -7,7 +7,10 @@ TEXT = "My sister, who has never written code, sent make.fun a note about her pl
 
 def main() -> None:
     assert 1 <= len(TEXT) <= 280
-    output_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+    selected_dir = os.environ.get("MAKEFUN_OUTPUT_DIR")
+    if selected_dir is None:
+        selected_dir = os.environ.get("OUTPUT_DIR", "/output")
+    output_dir = Path(selected_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "entry.txt").write_text(TEXT, encoding="utf-8")
     print(len(TEXT), file=sys.stderr)
